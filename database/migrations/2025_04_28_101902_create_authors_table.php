@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('authors', function (Blueprint $table) {
             $table->id();
             $table->string('name')->required();
-            $table->integer('birth_year')->required();
+            $table->integer('birth_year')->nullable();
             $table->integer('death_year')->nullable();
             $table->timestamps();
         });
