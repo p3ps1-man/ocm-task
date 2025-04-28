@@ -18,8 +18,7 @@ class DataService
         $this->url = env('EXTERNAL_API', 'https://gutendex.com/books/');
     }
 
-    // handle initial page load
-    public function loadData(int $page): void
+    public function loadData(int $page = 1): void
     {
         try {
             $res = Http::get($this->url, ['page' => $page]);
@@ -51,7 +50,7 @@ class DataService
         foreach ($collection as $item) {
             $book = Book::create([
                 'title' => $item['title'],
-                'description' => $item['summaries'][0]
+                'description' => $item['summaries'][0] ?? null
             ]);
 
             $ids = [];
@@ -59,8 +58,8 @@ class DataService
             foreach ($item['authors'] as $key => $value) {
                 $ids[$key] = Author::create([
                     'name' => $value['name'],
-                    'birth_year' => $value['birth_year'],
-                    'death_year' => $value['death_year'],
+                    'birth_year' => $value['birth_year'] ?? null,
+                    'death_year' => $value['death_year'] ?? null,
                 ])->id;
             }
 
