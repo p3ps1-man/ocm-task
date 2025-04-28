@@ -12,7 +12,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(DataService::class, function () {
+        $this->app->singleton(DataService::class, function () {
             return new DataService();
         });
     }

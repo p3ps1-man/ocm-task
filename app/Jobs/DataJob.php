@@ -15,7 +15,10 @@ class DataJob implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(DataService $service) {}
+    public function __construct(DataService $service)
+    {
+        $this->service = $service;
+    }
 
     /**
      * Execute the job.

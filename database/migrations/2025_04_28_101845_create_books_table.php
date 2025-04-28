@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('books', function (Blueprint $table) {
             $table->id();
             $table->string('title')->required();
-            $table->text('description')->required();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
