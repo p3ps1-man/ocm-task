@@ -127,8 +127,8 @@ export default {
                 });
         },
         changePage(pageNum) {
-            this.loadData(false);
             this.currPage = pageNum;
+            this.loadData(false);
         },
     },
 };
