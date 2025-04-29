@@ -16,7 +16,7 @@ test('index route inital load success', function () {
 
     $this->get(route('book.index'))
         ->assertStatus(Response::HTTP_OK)
-        ->assertJsonCount(15, 'books.data');
+        ->assertJsonCount(9, 'data');
 
     $this->assertDatabaseCount('books', 32);
 
@@ -31,40 +31,42 @@ test('index route initial load reads from db', function () {
 
     $this->get(route('book.index'))
         ->assertStatus(Response::HTTP_OK)
-        ->assertJsonCount(1, 'books.data');
+        ->assertJsonCount(1, 'data');
 
     Queue::assertNotPushed(DataJob::class);
 });
 
 test('search route search by title', function () {
+    Cache::put('data_loaded', true);
+
     $book = Book::factory()->create(['title' => 'test-title']);
 
     $this->get(route('book.index') . "?param=test")
         ->assertStatus(Response::HTTP_OK)
         ->assertJson([
-            'books' => [
-                'data' => [
-                    $book->toArray()
-                ]
+            'data' => [
+                $book->toArray()
             ]
         ]);
 });
 
 test('search route search by description', function () {
+    Cache::put('data_loaded', true);
+
     $book = Book::factory()->create(['description' => 'description-test']);
 
     $this->get(route('book.index') . "?param=description")
         ->assertStatus(Response::HTTP_OK)
         ->assertJson([
-            'books' => [
-                'data' => [
-                    $book->toArray()
-                ]
+            'data' => [
+                $book->toArray()
             ]
         ]);
 });
 
 test('search route search by author name', function () {
+    Cache::put('data_loaded', true);
+
     $book = Book::factory()->create(['description' => 'description-test']);
     $author = Author::factory()->create(['name' => 'John doe']);
     $book->authors()->attach([$author->id]);
@@ -72,30 +74,29 @@ test('search route search by author name', function () {
     $this->get(route('book.index') . "?param=jo")
         ->assertStatus(Response::HTTP_OK)
         ->assertJson([
-            'books' => [
-                'data' => [
-                    $book->toArray()
-                ]
+            'data' => [
+                $book->toArray()
             ]
         ]);
 });
 
 test('search route match all', function () {
+    Cache::put('data_loaded', true);
+
     $book1 = Book::factory()->create(['description' => 'description-test']);
     $book2 = Book::factory()->create(['title' => 'test-title']);
     $book3 = Book::factory()->create();
+
     $author = Author::factory()->create(['name' => 'tester']);
     $book3->authors()->attach([$author->id]);
 
     $this->get(route('book.index') . "?param=test")
         ->assertStatus(Response::HTTP_OK)
         ->assertJson([
-            'books' => [
-                'data' => [
-                    $book1->toArray(),
-                    $book2->toArray(),
-                    $book3->toArray(),
-                ]
+            'data' => [
+                $book1->toArray(),
+                $book2->toArray(),
+                $book3->toArray(),
             ]
         ]);
 });

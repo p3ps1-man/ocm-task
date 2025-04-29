@@ -30,20 +30,13 @@ class BookController extends Controller
             try {
                 $this->service->loadData();
             } catch (Exception $e) {
-                return response()->json(['msg' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
+                return response()->json(['message' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
             }
             dispatch(new DataJob($this->service));
 
             Cache::put('data_loaded', true);
         }
 
-        $books = Book::with('authors')->paginate(15);
-
-        return response()->json(['books' => $books]);
-    }
-
-    public function search(): JsonResponse
-    {
         $books = Book::with('authors')
             ->when(request()->param, function ($query, $search) {
                 $query->where('title', 'LIKE', "%$search%")
@@ -52,8 +45,8 @@ class BookController extends Controller
                         $query->where('name', 'LIKE', "%$search%");
                     });
             })
-            ->paginate(15);
+            ->paginate(9);
 
-        return response()->json(['books' => $books]);
+        return response()->json($books);
     }
 }

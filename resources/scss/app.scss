@@ -1,0 +1,9 @@
+@use "./pages/home.scss";
+@use "./components/bookItem.scss";
+@use "./components/loader.scss";
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
