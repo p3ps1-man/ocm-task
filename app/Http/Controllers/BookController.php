@@ -37,13 +37,6 @@ class BookController extends Controller
             Cache::put('data_loaded', true);
         }
 
-        $books = Book::with('authors')->paginate(15);
-
-        return response()->json(['books' => $books]);
-    }
-
-    public function search(): JsonResponse
-    {
         $books = Book::with('authors')
             ->when(request()->param, function ($query, $search) {
                 $query->where('title', 'LIKE', "%$search%")
@@ -54,6 +47,6 @@ class BookController extends Controller
             })
             ->paginate(15);
 
-        return response()->json(['books' => $books]);
+        return response()->json($books);
     }
 }
