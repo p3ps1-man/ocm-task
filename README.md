@@ -4,7 +4,7 @@ App for fetching data from external API and storing data in database. Due to hig
 
 API has corrupted data and duplicates which i wasnt aware of when i started using it, so the duplicates in the database are strictly due to bad data.
 
-Search bar hits the same route becouse it would be redundant to dublicate code for the controller.
+Search bar hits the same route because it would be redundant to duplicate code for the controller.
 
 ## Features
 
@@ -26,38 +26,54 @@ docker run --rm \
     -u "$(id -u):$(id -g)" \
     -v $(pwd):/opt \
     -w /opt \
-    laravelsail/php81-composer:latest \
+    laravelsail/php82-composer:latest \
     composer install --ignore-platform-reqs
 ```
 
-3. Generate app key
+3. Start laravel sail
 
 ```bash
-./vendor/bin/sail sail php artisan key:generate
+./vendor/bin/sail up -d
 ```
 
-4. Migrate the database
+4. Generate app key
 
 ```bash
-./vendor/bin/sail sail php artisan migrate
+./vendor/bin/sail php artisan key:generate
 ```
 
-5. Install npm packages
+5. Migrate the database
 
 ```bash
-./vendor/bin/sail sail npm install
+./vendor/bin/sail php artisan migrate
 ```
 
-5. Run laravel queue
+6. Install npm packages
 
 ```bash
-./vendor/bin/sail sail php artisan queue:work
+./vendor/bin/sail npm install
 ```
 
-6. Run the app
+7. Run laravel queue
 
 ```bash
-./vendor/bin/sail sail npm run dev
+./vendor/bin/sail php artisan queue:work
 ```
 
-Now you can access the app using url [http://localhost](http://localhost)
+8. Run the app in seperate terminal
+
+```bash
+./vendor/bin/sail npm run dev
+```
+
+Now you can access the app using url: [http://localhost](http://localhost)
+
+## Aditional features
+
+You can also run tests with coverage by running:
+
+```bash
+./vendor/bin/sail php artisan test --coverage
+```
+
+Current test coverage is 83%
