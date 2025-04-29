@@ -1,0 +1,49 @@
+.book-item {
+    border-radius: 5px;
+    border: 1px solid grey;
+    flex: 0 1 calc(33.333% - 1.5rem);
+    max-width: 100%;
+    min-width: 30%;
+    @media (max-width: 820px) {
+        flex-grow: 1 !important;
+        min-width: 100% !important;
+    }
+    .title {
+        text-align: center;
+        font-weight: bold;
+        background-color: rgb(165, 164, 162);
+        padding: 0.5rem;
+        h3 {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
+    .body {
+        padding: 0.5rem;
+        .description {
+            .bold {
+                font-weight: bold;
+            }
+            .data {
+                margin-top: 0.5rem;
+                display: -webkit-box;
+                line-clamp: 3;
+                -webkit-line-clamp: 4;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+        }
+        .authors {
+            margin-top: 0.5rem;
+            .bold {
+                text-align: left;
+                font-weight: bold;
+            }
+            .author-item {
+                margin-top: 0.5rem;
+                text-align: center;
+            }
+        }
+    }
+}

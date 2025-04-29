@@ -16,7 +16,7 @@ test('index route inital load success', function () {
 
     $this->get(route('book.index'))
         ->assertStatus(Response::HTTP_OK)
-        ->assertJsonCount(15, 'data');
+        ->assertJsonCount(9, 'data');
 
     $this->assertDatabaseCount('books', 32);
 

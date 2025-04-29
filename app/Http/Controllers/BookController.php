@@ -30,7 +30,7 @@ class BookController extends Controller
             try {
                 $this->service->loadData();
             } catch (Exception $e) {
-                return response()->json(['msg' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
+                return response()->json(['message' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
             }
             dispatch(new DataJob($this->service));
 
@@ -45,7 +45,7 @@ class BookController extends Controller
                         $query->where('name', 'LIKE', "%$search%");
                     });
             })
-            ->paginate(15);
+            ->paginate(9);
 
         return response()->json($books);
     }
